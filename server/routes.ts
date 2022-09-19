@@ -33,6 +33,7 @@ router.post('/cargos', function (req: Request, res: Response) {
 
 // Editar
 router.put('/funcionarios', function (req: Request, res: Response) {
+    console.log(req.body)
     funcionarioOp.editar(req.body)
         .then(() => {
             res.send('Funcionario editado')

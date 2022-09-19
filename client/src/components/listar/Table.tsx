@@ -8,11 +8,14 @@ export default function Table() {
         sobrenome: '',
         cargoId: '',
         nascimento: '',
-        salario: ''
+        salario: '',
+        idFuncionario: ''
     })
 
     const [estados, setEstados] = useState<any[]>([])
     const [modalShowFuncionario, setModalShowFuncionario] = useState(false);
+    const [editar, setEditar] = useState<boolean>(false)
+    
 
     function handleDelete(idFuncionario: number) {
         console.log (idFuncionario)
@@ -36,7 +39,6 @@ export default function Table() {
     }
 
     function editarFuncionario(idFuncionario: number) {
-        console.log(idFuncionario)
         axios({
             method: "POST",
             url: 'http://localhost:3000/funcionarios/unique',
@@ -50,7 +52,8 @@ export default function Table() {
                 sobrenome: response.data[0].sobrenome,
                 cargoId: response.data[0].cargoId,
                 nascimento: response.data[0].nascimento,
-                salario: response.data[0].salario
+                salario: response.data[0].salario,
+                idFuncionario: response.data[0].idFuncionario
             })
         })
         .catch(error => {
@@ -70,8 +73,8 @@ export default function Table() {
             <CadastrarFuncionario 
             show={modalShowFuncionario}
             onHide={() => setModalShowFuncionario(false)}
-            atualizar={"true"}
-            values={funcionarios}/>
+            values={funcionarios}
+            edicao={editar}/>
 
             <thead>
                 <tr>
@@ -107,7 +110,10 @@ export default function Table() {
                                     className="bi bi-trash"></i></button>
                                 </form>
                                     <button  
-                                    onClick={() => {editarFuncionario(funcionario.idFuncionario), setModalShowFuncionario(true)}}
+                                    onClick={() => {
+                                        editarFuncionario(funcionario.idFuncionario), 
+                                        setModalShowFuncionario(true), 
+                                        setEditar(true)}}
                                     className="col-auto btn btn-info" ><i 
                                     className="bi bi-pencil-square"></i></button>
                             </div>
