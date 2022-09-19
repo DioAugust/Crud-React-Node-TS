@@ -10,7 +10,7 @@ class FuncionarioOp {
         [funcionario.nome, funcionario.sobrenome, funcionario.cargoId, funcionario.nascimento, funcionario.salario, funcionario.idFuncionario])
     }
     async unique(id) {
-        return bd.promise().query('select * from funcionarios where idFuncionario=?', id)
+        return bd.promise().query('select * from funcionarios where idFuncionario=?', [id])
     }
     async create(funcionario) {
         return bd.promise().execute("INSERT INTO funcionarios (nome, sobrenome, cargoId, nascimento, salario) VALUES (?, ?, ?, ?, ?)", 

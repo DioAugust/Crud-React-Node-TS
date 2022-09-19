@@ -7,10 +7,12 @@ const router = express.Router();
 
 // Criar
 router.post('/funcionarios', function (req: Request, res: Response) {
+    console.log(req.body);
     funcionarioOp.create(req.body)
         .then(() => {
             res.status(201)
             res.send('Funcionario cadastrado')
+            
         })
         .catch((err) => {
             console.log(err)
@@ -60,7 +62,8 @@ router.get('/funcionarios', function (req: Request, res: Response) {
         })
 })
 
-router.get('/funcionarios/unique', function (req: Request, res: Response) {
+router.post('/funcionarios/unique', function (req: Request, res: Response) {
+    console.log(req.body)
     funcionarioOp.unique(req.body.idFuncionario)
         .then(([rows]) => {
             return res.send(rows)
@@ -92,8 +95,9 @@ router.get('/cargos', function (req: Request, res: Response) {
 
 // Delete
 router.delete('/funcionarios', function (req: Request, res: Response) {
-    console.log(req.body.idFuncionario)
-    funcionarioOp.delete(req.body.idFuncionario)
+    const { idFuncionario } = req.body
+    console.log(idFuncionario)
+    funcionarioOp.delete(idFuncionario)
         .then(() => {
             return res.send('Deletado')
         }).catch((err) => {
@@ -101,9 +105,10 @@ router.delete('/funcionarios', function (req: Request, res: Response) {
         })
 })
 router.delete('/cargos', function (req: Request, res: Response) {
-    CargoOp.delete(req.body.idCargo)
+    CargoOp.delete(req.params)
         .then(() => {
-            return res.send('Deletado')
+            res.send('Deletado')
+            return res.redirect('http://localhost:3000/funcionarios')
         })
         .catch((err) => {
             res.send('Cannot delete or update a parent row')
