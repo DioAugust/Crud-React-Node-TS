@@ -67,6 +67,7 @@ router.post('/funcionarios/unique', function (req: Request, res: Response) {
     console.log(req.body)
     funcionarioOp.unique(req.body.idFuncionario)
         .then(([rows]) => {
+            console.log(rows[0])
             return res.send(rows)
         })
         .catch((err) => {
