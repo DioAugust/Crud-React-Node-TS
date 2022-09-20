@@ -7,12 +7,10 @@ const router = express.Router();
 
 // Criar
 router.post('/funcionarios', function (req: Request, res: Response) {
-    console.log(req.body);
     funcionarioOp.create(req.body)
         .then(() => {
             res.status(201)
             res.send('Funcionario cadastrado')
-            
         })
         .catch((err) => {
             console.log(err)
@@ -33,24 +31,16 @@ router.post('/cargos', function (req: Request, res: Response) {
 
 // Editar
 router.put('/funcionarios', function (req: Request, res: Response) {
-    console.log(req.body)
     funcionarioOp.editar(req.body)
         .then(() => {
+            res.status(204)
             res.send('Funcionario editado')
         })
         .catch((err) => {
             console.log(err)
         })
 })
-router.put('/cargos', function (req: Request, res: Response) {
-    CargoOp.editar(req.body)
-        .then(() => {
-            return res.send('Cargo editado')
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
+
 
 // Listar
 router.get('/funcionarios', function (req: Request, res: Response) {
@@ -64,10 +54,8 @@ router.get('/funcionarios', function (req: Request, res: Response) {
 })
 
 router.post('/funcionarios/unique', function (req: Request, res: Response) {
-    console.log(req.body)
     funcionarioOp.unique(req.body.idFuncionario)
         .then(([rows]) => {
-            console.log(rows[0])
             return res.send(rows)
         })
         .catch((err) => {
@@ -75,46 +63,16 @@ router.post('/funcionarios/unique', function (req: Request, res: Response) {
         })
 })
 
-router.get('/cargos/unique', function (req: Request, res: Response) {
-    CargoOp.unique(req.body.idCargo)
-        .then(([rows]) => {
-            return res.send(rows)
-        })
-        .catch((err) => {
-            return console.log(err)
-        })
-})
-
-router.get('/cargos', function (req: Request, res: Response) {
-    CargoOp.list()
-        .then(([rows]) => {
-            return res.send(rows)
-        })
-        .catch((err) => {
-            return console.log(err)
-        })
-})
 
 // Delete
 router.delete('/funcionarios', function (req: Request, res: Response) {
     const { idFuncionario } = req.body
-    console.log(idFuncionario)
     funcionarioOp.delete(idFuncionario)
         .then(() => {
-            return res.send('Deletado')
-        }).catch((err) => {
-            return console.log(err)
-        })
-})
-router.delete('/cargos', function (req: Request, res: Response) {
-    CargoOp.delete(req.params)
-        .then(() => {
+            res.status(204)
             res.send('Deletado')
-            return res.redirect('http://localhost:3000/funcionarios')
-        })
-        .catch((err) => {
-            res.send('Cannot delete or update a parent row')
-            return console.log(err)
+        }).catch((err) => {
+            console.log(err)
         })
 })
 

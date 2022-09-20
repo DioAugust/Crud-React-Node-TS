@@ -1,141 +1,48 @@
 import { Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
-import React, { useState } from "react"
+import { useState } from "react"
 import axios from "axios"
-import { useEffect } from 'react';
+
 
 export default function EditarFuncionario(props: any) {
-    const [funcionarios, setFuncionarios] = useState("placeholder")
+    const [nomeFuncionario, setNome] = useState("")
+    const [sobrenomeFuncionario, setSobrenome] = useState("")
+    const [cargoIdFuncionario, setCargo] = useState("")
+    const [nascimentoFuncionario, setNascimento] = useState("")
+    const [salarioFuncionario, setSalario] = useState("")
 
-    async function ChamarEditado() {
-      let response = await axios({
-        method: "POST",
-        url: 'http://localhost:3000/funcionarios/unique',
-        data: {
-            idFuncionario: props.value.idFuncionario
-        }
-    }).then((response) => response)
-        console.log(response.data[0])
-        
+
+    const handleSobrenome = (e: any) => {
+        setSobrenome(e.target.value)
     }
-    if (funcionarios === "placeholder" ) {
-        ChamarEditado()
+    const handleNome = (e: any) => {
+        setNome(e.target.value)
     }
-    
-   
-    
+    const handleCargo = (e: any) => {
+        setCargo(e.target.value)
+    }
+    const handleNascimento = (e: any) => {
+        setNascimento(e.target.value.slice(0, 10))
+    }
+    const handleSalario = (e: any) => {
+        setSalario(e.target.value)
+    }
 
-    
-    
-
-    
-    // const atualizarSobrenome = (event: any) => {
-    //     event.preventDefault();
-    //     const { name, value } = event.target
-
-    //     setFuncionarios({
-    //         nome: funcionarios.nome,
-    //         sobrenome: value,
-    //         cargo: funcionarios.cargo,
-    //         nascimento: funcionarios.nascimento,
-    //         salario: funcionarios.salario
-    //     })
-    // }
-    // const atualizarCargo = (event: any) => {
-    //     event.preventDefault();
-    //     const { name, value } = event.target
-
-    //     setFuncionarios({
-    //         nome: funcionarios.nome,
-    //         sobrenome: funcionarios.sobrenome,
-    //         cargo: value,
-    //         nascimento: funcionarios.nascimento,
-    //         salario: funcionarios.salario
-    //     })
-    // }
-    // const atualizarNascimento = (event: any) => {
-    //     event.preventDefault();
-    //     const { name, value } = event.target
-
-    //     setFuncionarios({
-    //         nome: funcionarios.nome,
-    //         sobrenome: funcionarios.sobrenome,
-    //         cargo: funcionarios.cargo,
-    //         nascimento: value,
-    //         salario: funcionarios.salario
-    //     })
-    // }
-    // const atualizarSalario = (event: any) => {
-    //     event.preventDefault();
-    //     const { name, value } = event.target
-
-    //     setFuncionarios({
-    //         nome: funcionarios.nome,
-    //         sobrenome: funcionarios.sobrenome,
-    //         cargo: funcionarios.cargo,
-    //         nascimento: funcionarios.nascimento,
-    //         salario: value
-    //     })
-    // }
 
     function Editar() {
-        // let nome = funcionarios.nome ? funcionarios.nome : props.values.nome
-        // let sobrenome = funcionarios.sobrenome ? funcionarios.sobrenome : props.values.sobrenome
-        // let cargo = funcionarios.cargo ? funcionarios.cargo : props.values.cargo
-        // let nascimento = funcionarios.nascimento ? funcionarios.nascimento : props.values.nascimento
-        // let salario = funcionarios.salario ? funcionarios.salario : props.values.salario
-        // let id = props.values.idFuncionario
         axios({
             method: 'PUT',
             url: 'http://localhost:3000/funcionarios',
             data: {
-                    // nome: nome,
-                    // sobrenome: sobrenome,
-                    // cargoId: cargo,
-                    // nascimento: nascimento,
-                    // salario: salario,
-                    // idFuncionario: id
+                nome: nomeFuncionario ? nomeFuncionario : props.value.nome,
+                sobrenome: sobrenomeFuncionario ? sobrenomeFuncionario : props.value.sobrenome,
+                cargoId: cargoIdFuncionario ? cargoIdFuncionario : props.value.cargoId,
+                nascimento: nascimentoFuncionario ? nascimentoFuncionario : props.value.nascimento.slice(0, 10),
+                salario: salarioFuncionario ? salarioFuncionario : props.value.salario,
+                idFuncionario: props.value.idFuncionario
             }
         })
     }
-    // console.log(props.values)
-
-    // let nome = ''
-    // let sobrenome = ''
-    // let cargo = ''
-    // let nascimento = ''
-    // let salario = ''
-
-
-    // if (props.edicao) {
-    //     nome = props.values.nome
-    // } else {
-    //     nome = funcionarios.nome
-    // }
-
-    // if (props.edicao) {
-    //     sobrenome = props.values.sobrenome
-    // } else {
-    //     sobrenome = funcionarios.sobrenome
-    // }
-
-    // if (props.edicao) {
-    //     cargo = props.values.cargoId
-    // } else {
-    //     cargo = funcionarios.cargo
-    // }
-
-    // if (props.edicao) {
-    //     nascimento = props.values.nascimento.slice(0, 10)
-    // } else {
-    //     nascimento = funcionarios.nascimento
-    // }
-
-    // if (props.edicao) {
-    //     salario = props.values.salario
-    // } else {
-    //     salario = funcionarios.salario
-    // } onChange={atualizarNome} onChange={atualizarSobrenome} onChange={atualizarNascimento} onChange={atualizarCargo} onChange={atualizarSalario}
 
     return (
         <Modal
@@ -146,41 +53,64 @@ export default function EditarFuncionario(props: any) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Modal heading
+                    Editar funcionario
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body >
-                <Form onSubmit={ Editar } className=" row text-center ">
+                <Form onSubmit={Editar} className=" row text-center ">
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Nome:</Form.Label>
-                        <Form.Control type="text" name="nome"  />
+                        <Form.Label>Nome</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="nome" 
+                        defaultValue={nomeFuncionario ? nomeFuncionario : props.value.nome} 
+                        onChange={handleNome} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Sobrenome:</Form.Label>
-                        <Form.Control type="text" name="sobrenome"  />
+                        <Form.Label>Sobrenome</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="sobrenome" 
+                        defaultValue={sobrenomeFuncionario ? sobrenomeFuncionario : props.value.sobrenome} 
+                        onChange={handleSobrenome} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Cargo:</Form.Label>
-                        <Form.Control type="text" name="cargo" />
+                        <Form.Label>Cargo</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="cargo" 
+                        defaultValue={cargoIdFuncionario ? cargoIdFuncionario : props.value.cargoId} 
+                        onChange={handleCargo} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Data de nascimento:</Form.Label>
-                        <Form.Control type="date" name="nascimento" required  />
+                        <Form.Label>Data de nascimento</Form.Label>
+                        <Form.Control 
+                        type="date" 
+                        name="nascimento" 
+                        required 
+                        defaultValue={nascimentoFuncionario ? nascimentoFuncionario : props.value.nascimento.slice(0, 10)} 
+                        onChange={handleNascimento} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Salario:</Form.Label>
-                        <Form.Control type="text" name="salario" />
+                        <Form.Label>Salario</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="salario"
+                        defaultValue={salarioFuncionario ? salarioFuncionario : props.value.salario} 
+                        onChange={handleSalario} />
                     </Form.Group>
 
-                    <Button type="submit" value="Submit" className="btn btn-primary col-md-6 offset-md-3 mt-4">Cadastrar</Button>
+                    <Button 
+                    type="submit" 
+                    value="Submit" 
+                    className="btn btn-primary col-md-6 offset-md-3 mt-4">Cadastrar</Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button>Close</Button>
             </Modal.Footer>
         </Modal >
     )

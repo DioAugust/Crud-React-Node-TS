@@ -12,11 +12,9 @@ export default function Table() {
         salario: '',
         idFuncionario: ''
     })
-
     const [estados, setEstados] = useState<any[]>([])
     const [modalShowFuncionario, setModalShowFuncionario] = useState(false);
     const [modalShowEditar, setModalShowEditar] = useState(false);
-    
     
 
     function handleDelete(idFuncionario: number) {
@@ -85,11 +83,12 @@ export default function Table() {
             <tbody>
                 {
                 estados.map((funcionario) =>
+                
                     <tr>
                         <th scope="row"> {funcionario.idFuncionario} </th>
                         <td>{funcionario.nome}</td>
                         <td>{funcionario.sobrenome}</td>
-                        <td>{funcionario.cargoId} </td>
+                        <td>{funcionario.nomeCargo} </td>
                         <td>{funcionario.nascimento.slice(0, 10)} </td>
                         <td>{funcionario.salario} </td>
                         <td>
@@ -105,8 +104,8 @@ export default function Table() {
                                     className="bi bi-trash"></i></button>
                                 </form>
                                     <button  
-                                    onClick={() => {
-                                        editarFuncionario(funcionario.idFuncionario), 
+                                    onClick={() => { 
+                                        editarFuncionario(funcionario.idFuncionario)
                                         setModalShowEditar(true)
                                         }}
                                     className="col-auto btn btn-info" ><i 

@@ -5,87 +5,38 @@ import axios from "axios"
 
 
 export default function CadastrarFuncionario(props: any) {
-    const [funcionarios, setFuncionarios] = useState({
-        nome: '',
-        sobrenome: '',
-        cargo: '',
-        nascimento: '',
-        salario: ''
-    })
+    const [nomeFuncionario, setNome] = useState("")
+    const [sobrenomeFuncionario, setSobrenome] = useState("")
+    const [cargoIdFuncionario, setCargo] = useState("")
+    const [nascimentoFuncionario, setNascimento] = useState("")
+    const [salarioFuncionario, setSalario] = useState("")
 
-    const atualizarNome = (event: any) => {
-        event.preventDefault();
-        const { name, value } = event.target
-
-        setFuncionarios({
-            nome: value,
-            sobrenome: funcionarios.sobrenome,
-            cargo: funcionarios.cargo,
-            nascimento: funcionarios.nascimento,
-            salario: funcionarios.salario
-        })
+    const handleSobrenome = (e: any) => {
+        setSobrenome(e.target.value)
     }
-    const atualizarSobrenome = (event: any) => {
-        event.preventDefault();
-        const { name, value } = event.target
-
-        setFuncionarios({
-            nome: funcionarios.nome,
-            sobrenome: value,
-            cargo: funcionarios.cargo,
-            nascimento: funcionarios.nascimento,
-            salario: funcionarios.salario
-        })
+    const handleNome = (e: any) => {
+        setNome(e.target.value)
     }
-    const atualizarCargo = (event: any) => {
-        event.preventDefault();
-        const { name, value } = event.target
-
-        setFuncionarios({
-            nome: funcionarios.nome,
-            sobrenome: funcionarios.sobrenome,
-            cargo: value,
-            nascimento: funcionarios.nascimento,
-            salario: funcionarios.salario
-        })
+    const handleCargo = (e: any) => {
+        setCargo(e.target.value)
     }
-    const atualizarNascimento = (event: any) => {
-        event.preventDefault();
-        const { name, value } = event.target
-
-        setFuncionarios({
-            nome: funcionarios.nome,
-            sobrenome: funcionarios.sobrenome,
-            cargo: funcionarios.cargo,
-            nascimento: value,
-            salario: funcionarios.salario
-        })
+    const handleNascimento = (e: any) => {
+        setNascimento(e.target.value.slice(0, 10))
     }
-    const atualizarSalario = (event: any) => {
-        event.preventDefault();
-        const { name, value } = event.target
-
-        setFuncionarios({
-            nome: funcionarios.nome,
-            sobrenome: funcionarios.sobrenome,
-            cargo: funcionarios.cargo,
-            nascimento: funcionarios.nascimento,
-            salario: value
-        })
+    const handleSalario = (e: any) => {
+        setSalario(e.target.value)
     }
-
-
 
     function Registrar() {
         axios({
             method: 'POST',
             url: 'http://localhost:3000/funcionarios',
             data: {
-                nome: funcionarios.nome,
-                sobrenome: funcionarios.sobrenome,
-                cargoId: funcionarios.cargo,
-                nascimento: funcionarios.nascimento,
-                salario: funcionarios.salario
+                nome: nomeFuncionario,
+                sobrenome: sobrenomeFuncionario,
+                cargoId: cargoIdFuncionario,
+                nascimento: nascimentoFuncionario,
+                salario: salarioFuncionario
             }
         })
     }
@@ -101,41 +52,68 @@ export default function CadastrarFuncionario(props: any) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Modal heading
+                    Cadastro de funcionarios
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body >
-                <Form onSubmit={ Registrar} className=" row text-center ">
+                <Form onSubmit={ Registrar } className=" row text-center ">
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Nome:</Form.Label>
-                        <Form.Control type="text" name="nome" value={funcionarios.nome} onChange={atualizarNome} />
+                        <Form.Label>Nome</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="nome" 
+                        required 
+                        value={nomeFuncionario} 
+                        onChange={handleNome} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Sobrenome:</Form.Label>
-                        <Form.Control type="text" name="sobrenome" value={funcionarios.sobrenome } onChange={atualizarSobrenome} />
+                        <Form.Label>Sobrenome</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="sobrenome" 
+                        required value={sobrenomeFuncionario} 
+                        onChange={handleSobrenome} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Cargo:</Form.Label>
-                        <Form.Control type="text" name="cargo" value={funcionarios.cargo } onChange={atualizarCargo} />
+                        <Form.Label>Cargo</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="cargo" 
+                        required 
+                        value={cargoIdFuncionario} 
+                        onChange={handleCargo} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Data de nascimento:</Form.Label>
-                        <Form.Control type="date" name="nascimento" required value={funcionarios.nascimento } onChange={atualizarNascimento} />
+                        <Form.Label>Data de nascimento</Form.Label>
+                        <Form.Control 
+                        type="date" 
+                        name="nascimento" 
+                        required 
+                        value={nascimentoFuncionario} 
+                        onChange={handleNascimento} />
                     </Form.Group>
 
                     <Form.Group className="col-md-6 offset-md-3">
-                        <Form.Label>Salario:</Form.Label>
-                        <Form.Control type="text" name="salario" value={funcionarios.salario } onChange={atualizarSalario} />
+                        <Form.Label>Salario</Form.Label>
+                        <Form.Control 
+                        type="text" 
+                        name="salario" 
+                        required 
+                        value={salarioFuncionario} 
+                        onChange={handleSalario} />
                     </Form.Group>
 
-                    <Button type="submit" value="Submit" className="btn btn-primary col-md-6 offset-md-3 mt-4">Cadastrar</Button>
+                    <Button 
+                    type="submit" 
+                    value="Submit" 
+                    className="btn btn-primary col-md-6 offset-md-3 mt-4">Cadastrar</Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button>Close</Button>
+        
             </Modal.Footer>
         </Modal >
     )

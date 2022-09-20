@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
 import bd  from '../database/config'
 
 class FuncionarioOp {
     async list() {
-        return bd.promise().query('select * from funcionarios')
+        return bd.promise().query('select nome, sobrenome, nascimento, salario, nomeCargo, idFuncionario from funcionarios, cargos where cargoId = idCargo')
     }
     async editar(funcionario) {
         return bd.promise().execute('UPDATE funcionarios set nome=?, sobrenome=?, cargoId=?, nascimento=?, salario=? where idFuncionario= ?',

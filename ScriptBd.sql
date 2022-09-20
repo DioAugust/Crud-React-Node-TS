@@ -15,10 +15,8 @@ create table funcionarios (
     foreign key(cargoId) references cargos(idCargo)
 );
 
-INSERT INTO cargos (nomeCargo, descricaoCargo) VALUES ('carro', 'teste');
-INSERT INTO funcionarios (nome, sobrenome, cargoId, nascimento, salario) VALUES ('teste', 'teste', 1, '2000-03-23', 34.5);
-
-UPDATE funcionarios set cargoId=2 where idFuncionario= 11
+INSERT INTO cargos (nomeCargo, descricaoCargo) VALUES ('Analista', 'empregado');
+INSERT INTO funcionarios (nome, sobrenome, cargoId, nascimento, salario) VALUES ('Diogo', 'Augusto', 1, '2000-03-23', 2000);
 
 select * from funcionarios;
 select * from cargos;

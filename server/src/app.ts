@@ -10,7 +10,6 @@ class App {
 
     public constructor() {
         this.express = express()
-
         this.middlewares()
     }
 
