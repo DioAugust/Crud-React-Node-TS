@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CadastrarFuncionario from "../funcionaros/CadastrarFuncionario";
+import EditarFuncionarioModal from "../funcionaros/EditarFuncionarioModal"
 
 export default function Table() {
     const [funcionarios, setFuncionarios] = useState({
@@ -14,23 +15,14 @@ export default function Table() {
 
     const [estados, setEstados] = useState<any[]>([])
     const [modalShowFuncionario, setModalShowFuncionario] = useState(false);
-    const [editar, setEditar] = useState<boolean>(false)
+    const [modalShowEditar, setModalShowEditar] = useState(false);
+    
     
 
     function handleDelete(idFuncionario: number) {
         console.log (idFuncionario)
         axios({
             method: "DELETE",
-            url: 'http://localhost:3000/funcionarios',
-            data: {
-                idFuncionario
-            }
-        })
-    }
-    function handleUpdate(idFuncionario: number) {
-        console.log (idFuncionario)
-        axios({
-            method: "PUT",
             url: 'http://localhost:3000/funcionarios',
             data: {
                 idFuncionario
@@ -66,15 +58,18 @@ export default function Table() {
             setEstados(response.data)
         })
     }, []);
-    
     return (
         <table className="table table-striped">
 
             <CadastrarFuncionario 
             show={modalShowFuncionario}
             onHide={() => setModalShowFuncionario(false)}
-            values={funcionarios}
-            edicao={editar}/>
+            values={funcionarios}/>
+
+            <EditarFuncionarioModal
+            show={modalShowEditar}
+            value={funcionarios}
+            onHide={() => setModalShowEditar(false)}/>
 
             <thead>
                 <tr>
@@ -112,8 +107,8 @@ export default function Table() {
                                     <button  
                                     onClick={() => {
                                         editarFuncionario(funcionario.idFuncionario), 
-                                        setModalShowFuncionario(true), 
-                                        setEditar(true)}}
+                                        setModalShowEditar(true)
+                                        }}
                                     className="col-auto btn btn-info" ><i 
                                     className="bi bi-pencil-square"></i></button>
                             </div>
